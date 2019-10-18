@@ -84,8 +84,11 @@ public class Resources {
   public static final EV3LargeRegulatedMotor rightMotor =
       new EV3LargeRegulatedMotor(LocalEV3.get().getPort("D"));
   
-  public static final EV3LargeRegulatedMotor catapult =
+  public static final EV3LargeRegulatedMotor catapult1 =
       new EV3LargeRegulatedMotor(LocalEV3.get().getPort("B"));
+  
+  public static final EV3LargeRegulatedMotor catapult2 =
+      new EV3LargeRegulatedMotor(LocalEV3.get().getPort("C"));
   
   /**
    * The ultrasonic sensor.
