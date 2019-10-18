@@ -11,14 +11,14 @@ public class Main {
     /*
      * Constants:
      *  Acceleration = 7000
-     *  Speed = 300
+     *  Speed = 350
      *  Angle = +/- 40
      */
     while (true) {
       catapult1.setAcceleration(7000);                      // Set shooting speed
-      catapult1.setSpeed(300);
+      catapult1.setSpeed(350);
       catapult2.setAcceleration(7000);
-      catapult2.setSpeed(300);
+      catapult2.setSpeed(350);
       
       System.out.println("Ready");
       buttonChoice = Button.waitForAnyPress();
