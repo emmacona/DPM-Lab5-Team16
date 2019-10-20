@@ -68,7 +68,7 @@ public class LightLocalizer {
     odometer.setY(TILE_SIZE - y);
     Navigation.travelTo2(1, 1);
     
-    odometer.update(0, 0, 3);
+    odometer.update(0, 0, 7);
     Navigation.turnTo(0);
   }
 

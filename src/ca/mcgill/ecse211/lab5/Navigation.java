@@ -25,7 +25,7 @@ public class Navigation {
     headingTheta = computeTheta(x, y);
     
     turnTo(headingTheta);
-    Delay.msDelay(2000);
+    Delay.msDelay(1000);
     leftMotor.setSpeed(ROTATE_SPEED);
     rightMotor.setSpeed(ROTATE_SPEED);
     leftMotor.rotate(convertDistance(distance), true);
@@ -43,9 +43,9 @@ public class Navigation {
     
     headingTheta = computeTheta(x, y);
     
-    Delay.msDelay(2000);
+    Delay.msDelay(1000);
     turnTo(headingTheta);
-    Delay.msDelay(2000);
+    Delay.msDelay(1000);
     leftMotor.setSpeed(ROTATE_SPEED);
     rightMotor.setSpeed(ROTATE_SPEED);
     leftMotor.rotate(convertDistance(distance), true);

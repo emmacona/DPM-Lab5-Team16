@@ -11,7 +11,9 @@ public class Main {
     
     new Thread(odometer).start();                       // Start Odometer thread
     new Thread(new Display()).start();                  // Start Display thread
-    if (Button.waitForAnyPress() != Button.ID_DOWN) {
+    if (Button.waitForAnyPress() == Button.ID_DOWN) {   // Press DOWN for stationary launching
+      launch();
+    } else {                                            // Press any other button for localization and launch
       leftMotor.setAcceleration(6000);
       rightMotor.setAcceleration(6000);
       
@@ -25,14 +27,18 @@ public class Main {
       rightMotor.stop(false);
       //Button.waitForAnyPress();
       
-      double pointX = 1.0;
-      double pointY = 7.5;
+      double pointX = 7.5;
+      double pointY = 3.5;
       Navigation.travelTo(pointX, pointY);
+      launch();
     }
+  }
+  
+  public static void launch() {
     /*
      * Constants:
-     *  Acceleration = 7000
-     *  Speed = 410
+     *  Acceleration = 8000
+     *  Speed = 500
      *  Angle = +/- 40
      */
     catapult1.setAcceleration(300);
@@ -41,28 +47,28 @@ public class Main {
     catapult2.setSpeed(70);
     catapult1.rotate(40, true);
     catapult2.rotate(40, false);
-    do {
+    while(true) {
       catapult1.setAcceleration(8000);                      // Set shooting speed
-      catapult1.setSpeed(450);
+      catapult1.setSpeed(500);
       catapult2.setAcceleration(8000);
-      catapult2.setSpeed(450);
+      catapult2.setSpeed(500);
       
       System.out.println("Ready");
       buttonChoice = Button.waitForAnyPress();
-      if (buttonChoice == Button.ID_ESCAPE) System.exit(0); // Exits if Escape is pressed
+      if (buttonChoice == Button.ID_ESCAPE) break; // Exits if Escape is pressed
       catapult1.rotate(-45, true);                          // Shoots!
       catapult2.rotate(-45, false);
       
-      buttonChoice = Button.waitForAnyPress();                             // Reload
+      buttonChoice = Button.waitForAnyPress();              // Reload
+      if (buttonChoice == Button.ID_ESCAPE) break; // Exits if Escape is pressed
       catapult1.setAcceleration(300);
       catapult1.setSpeed(70);
       catapult2.setAcceleration(300);
       catapult2.setSpeed(70);
       catapult1.rotate(40, true);
       catapult2.rotate(40, false);
-    } while (buttonChoice != Button.ID_ESCAPE);
+    }
     System.exit(0);
   }
-  
   
 }
