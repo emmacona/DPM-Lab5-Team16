@@ -63,10 +63,12 @@ public class LightLocalizer {
     
     // 5
     // Set x and y values to odometer accordingly
+    // Compute the delta theta from both x and y, and use its average.
     odometer.setX(TILE_SIZE - x);
     odometer.setY(TILE_SIZE - y);
-
-    Navigation.travelTo(1, 1);
+    Navigation.travelTo2(1, 1);
+    
+    odometer.update(0, 0, 3);
     Navigation.turnTo(0);
   }
 

@@ -1,6 +1,7 @@
 package ca.mcgill.ecse211.lab5;
 
 import static ca.mcgill.ecse211.lab5.Resources.*;
+import lejos.utility.Delay;
 
 public class Navigation {
   
@@ -19,15 +20,36 @@ public class Navigation {
     double yi = odometer.getXYT()[1];
     dx = (x * TILE_SIZE) - xi;
     dy = (y * TILE_SIZE) - yi;
+    distance = Math.sqrt(dx * dx + dy * dy) - 135;
+    
+    headingTheta = computeTheta(x, y);
+    
+    turnTo(headingTheta);
+    Delay.msDelay(2000);
+    leftMotor.setSpeed(ROTATE_SPEED);
+    rightMotor.setSpeed(ROTATE_SPEED);
+    leftMotor.rotate(convertDistance(distance), true);
+    rightMotor.rotate(convertDistance(distance), false);
+    
+  }
+  
+  public static void travelTo2(double x, double y) {
+    double dx, dy, distance, headingTheta;
+    double xi = odometer.getXYT()[0];
+    double yi = odometer.getXYT()[1];
+    dx = (x * TILE_SIZE) - xi;
+    dy = (y * TILE_SIZE) - yi;
     distance = Math.sqrt(dx * dx + dy * dy);
     
     headingTheta = computeTheta(x, y);
-
+    
+    Delay.msDelay(2000);
     turnTo(headingTheta);
-    leftMotor.setSpeed(FORWARD_SPEED);
-    rightMotor.setSpeed(FORWARD_SPEED);
+    Delay.msDelay(2000);
+    leftMotor.setSpeed(ROTATE_SPEED);
+    rightMotor.setSpeed(ROTATE_SPEED);
     leftMotor.rotate(convertDistance(distance), true);
-    rightMotor.rotate(convertDistance(distance), true);
+    rightMotor.rotate(convertDistance(distance), false);
     
   }
   

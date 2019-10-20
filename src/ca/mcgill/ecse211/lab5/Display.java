@@ -10,7 +10,7 @@ import static ca.mcgill.ecse211.lab5.Resources.*;
 public class Display implements Runnable {
 
   private double[] position;
-  private final long DISPLAY_PERIOD = 25;
+  private final long DISPLAY_PERIOD = 100;
   private long timeout = Long.MAX_VALUE;
 
   public void run() {
@@ -31,7 +31,7 @@ public class Display implements Runnable {
       LCD.drawString("X: " + numberFormat.format(position[0]), 0, 0);
       LCD.drawString("Y: " + numberFormat.format(position[1]), 0, 1);
       LCD.drawString("T: " + numberFormat.format(position[2]), 0, 2);
-      LCD.drawString("US Distance: " + numberFormat.format(UltrasonicLocalizer.getDistance()), 0, 3);
+      //LCD.drawString("US Distance: " + numberFormat.format(UltrasonicLocalizer.getDistance()), 0, 3);
       
       // this ensures that the data is updated only once every period
       updateEnd = System.currentTimeMillis();

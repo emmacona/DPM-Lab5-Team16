@@ -22,11 +22,11 @@ public class UltrasonicLocalizer {
     leftMotor.setSpeed(ROTATE_SPEED);
     rightMotor.setSpeed(ROTATE_SPEED);
     
-    while(distance < BAND_CENTER + NOISE_MARGIN) {      // Checks for the case when robot is facing a wall (right)
+    while(getDistance() < BAND_CENTER + NOISE_MARGIN) {      // Checks for the case when robot is facing a wall (right)
       leftMotor.forward();
       rightMotor.backward();
     }
-    while(distance > BAND_CENTER - NOISE_MARGIN) {      // Continues to turn until wall is detected
+    while(getDistance() > BAND_CENTER - NOISE_MARGIN) {      // Continues to turn until wall is detected
       leftMotor.forward();
       rightMotor.backward();
     }
@@ -35,11 +35,11 @@ public class UltrasonicLocalizer {
     angles[0] = odometer.getXYT()[2];
     
     
-    while(distance < BAND_CENTER + NOISE_MARGIN) {      // Turns opposite side (left)
+    while(getDistance() < BAND_CENTER + NOISE_MARGIN) {      // Turns opposite side (left)
       leftMotor.backward();
       rightMotor.forward();
     }
-    while (distance > BAND_CENTER - NOISE_MARGIN) {     // Continues to turn until wall is detected
+    while (getDistance() > BAND_CENTER - NOISE_MARGIN) {     // Continues to turn until wall is detected
       leftMotor.backward();
       rightMotor.forward();
     }
@@ -56,7 +56,6 @@ public class UltrasonicLocalizer {
     double updatedHeading = odometer.getXYT()[2] + deltaT;
     updatedHeading = (updatedHeading > 360) ? updatedHeading - 360 : updatedHeading;
     odometer.setXYT(0, 0, updatedHeading);
-    Navigation.turnTo(0);
 
     leftMotor.stop(true);
     rightMotor.stop(false);
