@@ -7,7 +7,7 @@ public class UltrasonicLocalizer {
   private static double[] angles = {0, 0};                      // Stores the 2 angles detected for each method
   private static float[] usData = new float[US_SENSOR.sampleSize()];   // Variable used to get USDistance
   private static double distance, deltaT;                       // Distance variable for USSensor and deltaT variable
-  private final static double NOISE_MARGIN = 2;
+  private final static double NOISE_MARGIN = 5;
   
   /**
    * Similar to the risingEdge method

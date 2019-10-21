@@ -14,18 +14,19 @@ public class Navigation {
    * @param x
    * @param y
    */
-  public static void travelTo(double x, double y) {
+  public static void travelTo(double x, double y, double offset) {
     double dx, dy, distance, headingTheta;
     double xi = odometer.getXYT()[0];
     double yi = odometer.getXYT()[1];
     dx = (x * TILE_SIZE) - xi;
     dy = (y * TILE_SIZE) - yi;
-    distance = Math.sqrt(dx * dx + dy * dy) - 135;
+    distance = Math.sqrt(dx * dx + dy * dy) - offset;          // offset represents how far the robot needs to shoot from
     
     headingTheta = computeTheta(x, y);
     
+    Delay.msDelay(800);         // Added small delay between turnTo and travelTo to reduce random pulse motions of the wheels
     turnTo(headingTheta);
-    Delay.msDelay(1000);
+    Delay.msDelay(800);
     leftMotor.setSpeed(ROTATE_SPEED);
     rightMotor.setSpeed(ROTATE_SPEED);
     leftMotor.rotate(convertDistance(distance), true);
@@ -33,7 +34,7 @@ public class Navigation {
     
   }
   
-  public static void travelTo2(double x, double y) {
+  public static void travelTo(double x, double y) {
     double dx, dy, distance, headingTheta;
     double xi = odometer.getXYT()[0];
     double yi = odometer.getXYT()[1];
@@ -43,9 +44,9 @@ public class Navigation {
     
     headingTheta = computeTheta(x, y);
     
-    Delay.msDelay(1000);
+    Delay.msDelay(800);
     turnTo(headingTheta);
-    Delay.msDelay(1000);
+    Delay.msDelay(800);
     leftMotor.setSpeed(ROTATE_SPEED);
     rightMotor.setSpeed(ROTATE_SPEED);
     leftMotor.rotate(convertDistance(distance), true);
@@ -59,8 +60,8 @@ public class Navigation {
    * @param theta
    */
   public static void turnTo(double theta) {
-    leftMotor.stop();
-    rightMotor.stop();
+    leftMotor.stop(true);
+    rightMotor.stop(false);
     leftMotor.setSpeed(ROTATE_SPEED);
     rightMotor.setSpeed(ROTATE_SPEED);
     

@@ -10,7 +10,7 @@ import static ca.mcgill.ecse211.lab5.Resources.*;
 public class Display implements Runnable {
 
   private double[] position;
-  private final long DISPLAY_PERIOD = 100;
+  private final long DISPLAY_PERIOD = 200;
   private long timeout = Long.MAX_VALUE;
 
   public void run() {
