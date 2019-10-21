@@ -6,7 +6,9 @@ import lejos.hardware.Button;
 public class Main {
   
   private static int buttonChoice;
-  private static final double shootingRange = 135;
+  public static final double shootingRange = 135;
+  private static final double ANGLE_CORRECTION_LOW = 2.9;
+  private static final double ANGLE_CORRECTION_HIGH = 8.1;
   
   public static void main(String args[]) {
     
@@ -15,8 +17,6 @@ public class Main {
     if (Button.waitForAnyPress() == Button.ID_DOWN) {   // Press DOWN for stationary launching
       launch();
     } else {                                            // Press any other button for localization and launch
-      leftMotor.setAcceleration(6000);
-      rightMotor.setAcceleration(6000);
       
       leftMotor.stop(true);                             // Added stops in between to also reduce random pulses
       rightMotor.stop(false);
@@ -27,49 +27,65 @@ public class Main {
       leftMotor.stop(true);
       rightMotor.stop(false);
       
-      double targetX = 7.5;
-      double targetY = 3.5;
-      double deltaT = Math.atan((targetY - 1) / (targetX - 1)) * 180 / Math.PI;
-      double updateT = 2.9 + (8.1-2.9) * deltaT / 90.0;                             // Theta correction that scales depending on where the target is
+      double deltaT = Math.atan((TARGET_Y - 1) / (TARGET_X - 1)) * 180 / Math.PI;
+      double updateT = ANGLE_CORRECTION_LOW + (ANGLE_CORRECTION_HIGH - ANGLE_CORRECTION_LOW) * deltaT / 90.0;                             // Theta correction that scales depending on where the target is
       odometer.update(0, 0, updateT);
-      Navigation.travelTo(targetX, targetY, shootingRange);
+      Navigation.travelTo(TARGET_X, TARGET_Y, shootingRange);
       launch();
     }
   }
   
+  public static double[] findLaunchPoint() {
+    double dx = (TARGET_X - 1) * TILE_SIZE;
+    double dy = (TARGET_Y - 1) * TILE_SIZE;
+    double dTheta = Math.atan(dy/dx);
+    
+    double distance = Math.sqrt(dx * dx + dy * dy) - shootingRange;
+    double launchX = TILE_SIZE + distance * Math.cos(dTheta);
+    double launchY = TILE_SIZE + distance * Math.sin(dTheta);
+    double[] result = {launchX / TILE_SIZE, launchY / TILE_SIZE};
+    return result;
+  }
+  
   public static void launch() {
     /*
-     * Constants:
-     *  Acceleration = 8000
-     *  Speed = 500
-     *  Angle = +/- 40
+     * Constants
      */
-    catapult1.setAcceleration(300);                         // Initially lowers the catapult
-    catapult1.setSpeed(70);
-    catapult2.setAcceleration(300);
-    catapult2.setSpeed(70);
-    catapult1.rotate(40, true);
-    catapult2.rotate(40, false);
+    final int loweringAcc = 300;
+    final int loweringSpd = 70;
+    final int loweringAng = 40;
+    
+    final int throwingAcc = 8000;
+    final int throwingSpd = 500;
+    final int throwingAng = 45;
+    
+    
+    catapult1.setAcceleration(loweringAcc);                         // Initially lowers the catapult
+    catapult1.setSpeed(loweringSpd);
+    catapult2.setAcceleration(loweringAcc);
+    catapult2.setSpeed(loweringSpd);
+    catapult1.rotate(loweringAng, true);
+    catapult2.rotate(loweringAng, false);
     while(true) {
-      catapult1.setAcceleration(8000);                      // Set shooting speed
-      catapult1.setSpeed(500);
-      catapult2.setAcceleration(8000);
-      catapult2.setSpeed(500);
+      catapult1.setAcceleration(throwingAcc);                      // Set shooting speed
+      catapult1.setSpeed(throwingSpd);
+      catapult2.setAcceleration(throwingAcc);
+      catapult2.setSpeed(throwingSpd);
       
       //System.out.println("Ready");
       buttonChoice = Button.waitForAnyPress();
       if (buttonChoice == Button.ID_ESCAPE) break;          // Exits if Escape is pressed
-      catapult1.rotate(-45, true);                          // Shoots!
-      catapult2.rotate(-45, false);
+      catapult1.rotate(-throwingAng, true);                          // Shoots!
+      catapult2.rotate(-throwingAng, false);
       
       buttonChoice = Button.waitForAnyPress();
       if (buttonChoice == Button.ID_ESCAPE) break;          // Exits if Escape is pressed
-      catapult1.setAcceleration(300);                       // Reload / lower catapult
-      catapult1.setSpeed(70);
-      catapult2.setAcceleration(300);
-      catapult2.setSpeed(70);
-      catapult1.rotate(40, true);
-      catapult2.rotate(40, false);
+      catapult1.setAcceleration(loweringAcc);                       // Reload / lower catapult
+      catapult1.setSpeed(loweringSpd);
+      catapult2.setAcceleration(loweringAcc);
+      catapult2.setSpeed(loweringSpd);
+      catapult1.rotate(loweringAng, true);
+      catapult2.rotate(loweringAng, false);
     }
     System.exit(0);
   }

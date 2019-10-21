@@ -15,6 +15,12 @@ import lejos.hardware.sensor.EV3UltrasonicSensor;
  */
 public class Resources {
   
+  
+  public static final double TARGET_X = 7.5;
+  public static final double TARGET_Y = 3.5;
+  
+  public static final double SHOOTING_RANGE = 135;
+  
   /**
    * Offset from the wall (cm).
    */
