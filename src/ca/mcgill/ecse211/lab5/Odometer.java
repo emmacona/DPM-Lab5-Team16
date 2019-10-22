@@ -3,8 +3,7 @@ package ca.mcgill.ecse211.lab5;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-
-//static import to avoid duplicating variables and make the code easier to read
+// static import to avoid duplicating variables and make the code easier to read
 import static ca.mcgill.ecse211.lab5.Resources.*;
 
 /**
@@ -17,19 +16,18 @@ import static ca.mcgill.ecse211.lab5.Resources.*;
  * @author Michael Smith
  * @author Younes Boubekeur
  */
-
 public class Odometer implements Runnable {
-  
+
   /**
    * The x-axis position in cm.
    */
   private volatile double x;
-  
+
   /**
    * The y-axis position in cm.
    */
-  private volatile double y; // y-axis position
-  
+  private volatile double y;
+
   /**
    * The orientation in degrees.
    */
@@ -37,12 +35,12 @@ public class Odometer implements Runnable {
 
   // Thread control tools
   /**
-   * Fair lock for concurrent writing
+   * Fair lock for concurrent writing.
    */
   private static Lock lock = new ReentrantLock(true);
-  
+
   /**
-   * Indicates if a thread is trying to reset any position parameters
+   * Indicates if a thread is trying to reset any position parameters.
    */
   private volatile boolean isResetting = false;
 
@@ -64,7 +62,6 @@ public class Odometer implements Runnable {
    */
   private static final long ODOMETER_PERIOD = 25;
 
-  
   /**
    * This is the default constructor of this class. It initiates all motors and variables once.It
    * cannot be accessed externally.
@@ -82,7 +79,6 @@ public class Odometer implements Runnable {
     if (odo == null) {
       odo = new Odometer();
     }
-    
     return odo;
   }
 
@@ -92,31 +88,33 @@ public class Odometer implements Runnable {
   public void run() {
     long updateStart, updateEnd;
     double distL, distR, deltaD, deltaT, dX, dY, tempTheta;
-    tempTheta = odo.getXYT()[2] * Math.PI / 180;                    // Initialize theta variable to radians
-    leftMotor.resetTachoCount();                                    // Initialize tacho counts to zero
+    tempTheta = odo.getXYT()[2] * Math.PI / 180;            // Initialize theta variable to radians
+    leftMotor.resetTachoCount();                            // Initialize tacho counts to zero
     rightMotor.resetTachoCount();
     leftMotorLastTachoCount = leftMotor.getTachoCount();
     rightMotorLastTachoCount = rightMotor.getTachoCount();
-    
+
     while (true) {
       updateStart = System.currentTimeMillis();
 
       leftMotorTachoCount = leftMotor.getTachoCount();
       rightMotorTachoCount = rightMotor.getTachoCount();
 
-      distL = Math.PI * WHEEL_RAD * (leftMotorTachoCount - leftMotorLastTachoCount) / 180;      // Computer wheel displacements
+      // Compute wheel displacements
+      distL = Math.PI * WHEEL_RAD * (leftMotorTachoCount - leftMotorLastTachoCount) / 180;
       distR = Math.PI * WHEEL_RAD * (rightMotorTachoCount - rightMotorLastTachoCount) / 180;
-      leftMotorLastTachoCount = leftMotorTachoCount;                                            // Save tacho counts for next iteration
+      leftMotorLastTachoCount = leftMotorTachoCount; // Save tacho counts for next iteration
       rightMotorLastTachoCount = rightMotorTachoCount;
-      deltaD = (distL + distR) / 2;                                                             // Compute vehicle displacement
-      deltaT = (distL - distR) / TRACK;                                                         // Compute change in heading
-      tempTheta += deltaT;                                                                      // Update heading
-      dX = deltaD * Math.sin(tempTheta);                                                        // Compute X component of displacement
-      dY = deltaD * Math.cos(tempTheta);                                                        // Compute Y component of displacement
+      deltaD = (distL + distR);             // Compute vehicle displacement
+      deltaT = (distL - distR) / TRACK;     // Compute change in heading
+      tempTheta += deltaT;                  // Update heading
+      dX = deltaD * Math.sin(tempTheta);    // Compute X component of displacement
+      dY = deltaD * Math.cos(tempTheta);    // Compute Y component of displacement
 
-      odo.update(dX,dY,deltaT * 180 / Math.PI);                                                 // Update position and convert deltaT back to degrees
-      
-      // this ensures that the odometer only runs once every period
+      // Update position and convert deltaT back to degrees
+      odo.update(dX, dY, deltaT * 180 / Math.PI);
+
+      // This ensures that the odometer only runs once every period
       updateEnd = System.currentTimeMillis();
       if (updateEnd - updateStart < ODOMETER_PERIOD) {
         try {
@@ -127,14 +125,14 @@ public class Odometer implements Runnable {
       }
     }
   }
-  
+
   // IT IS NOT NECESSARY TO MODIFY ANYTHING BELOW THIS LINE
   
   /**
    * Returns the Odometer data.
    * <p>
-   * Writes the current position and orientation of the robot onto the odoData array. {@code odoData[0] =
-   * x, odoData[1] = y; odoData[2] = theta;}
+   * Writes the current position and orientation of the robot onto the odoData array.
+   * {@code odoData[0] = x, odoData[1] = y; odoData[2] = theta;}
    * 
    * @param position the array to store the odometer data
    * @return the odometer data.
