@@ -16,7 +16,7 @@ public class Main {
 
   /**
    * The main entry point.
-   * 
+   *
    * @param args
    */
   public static void main(String[] args) {
@@ -40,6 +40,14 @@ public class Main {
       double updateT = ANGLE_CORRECTION_LOW + (ANGLE_CORRECTION_HIGH - ANGLE_CORRECTION_LOW)
                          * deltaT / 90.0; // Theta correction that scales based on target location
       odometer.update(0, 0, updateT);
+
+//      double deltaT = Math.atan((TARGET_Y - 1) / (TARGET_X - 1)) * 180 / Math.PI;
+//      double updateT = ANGLE_CORRECTION_LOW + (ANGLE_CORRECTION_HIGH - ANGLE_CORRECTION_LOW) * deltaT / 90.0;                             // Theta correction that scales depending on where the target is
+//      odometer.update(0, 0, updateT);
+//
+//      double launchX = findLaunchPoint()[0];
+//      double launchY = findLaunchPoint()[1];
+//      Navigation.travelTo(launchX, launchY);
       Navigation.travelTo(TARGET_X, TARGET_Y, shootingRange);
       launch();
     }
@@ -47,7 +55,7 @@ public class Main {
 
   /**
    * Calculates the launch point x and y, using the target coordinate in Resources.
-   * 
+   *
    * @return the launch point, array of x and y position
    */
   public static double[] findLaunchPoint() {

@@ -27,6 +27,8 @@ public class Resources {
    */
   public static final double SHOOTING_RANGE = 135;
 
+  public static final double CATAPULT_OFFSET = 11;
+
   /**
    * Offset from the wall (cm).
    */
@@ -46,9 +48,9 @@ public class Resources {
    * Speed of the faster rotating wheel (deg/sec).
    */
   public static final int MOTOR_HIGH = 200;
-
-  public static final double LIGHTSENSOR_OFFSET = 11.5;
-
+  
+  public static final double LIGHTSENSOR_OFFSET = 12.5;
+  
   public static final int FILTER_OUT = 25;
   /**
    * The wheel radius in centimeters.
@@ -58,7 +60,7 @@ public class Resources {
   /**
    * The robot width in centimeters.
    */
-  public static final double TRACK = 15.05;
+  public static final double TRACK = 15.02;
   /**
    * The speed at which the robot moves forward in degrees per second.
    */

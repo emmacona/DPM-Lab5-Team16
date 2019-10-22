@@ -16,9 +16,9 @@ public class UltrasonicLocalizer {
    * 2. After TURNING AWAY FROM a wall, it will continue to turn right until a falling edge
    *    is detected (i.e. a wall is detected).
    * 3. The robot stops and records its angle.
-   * Repeat the 3 steps but in the opposite direction. 
+   * Repeat the 3 steps but in the opposite direction.
    * This will give you 2 angles where a Falling Edge is detected.
-   * Use the math formula and add the deltaAngle to the current heading. 
+   * Use the math formula and add the deltaAngle to the current heading.
    * This will update the current heading to its true heading.
    * Then turn to 0 degree.
    */
@@ -57,10 +57,10 @@ public class UltrasonicLocalizer {
     } else {
       deltaT = 225 - (angles[0] + angles[1]) / 2.0;
     }
-
-    double updatedHeading = odometer.getXYT()[2] + deltaT;
-    updatedHeading = (updatedHeading > 360) ? updatedHeading - 360 : updatedHeading;
-    odometer.setXYT(0, 0, updatedHeading);
+    
+//    double updatedHeading = odometer.getXYT()[2] + deltaT;
+//    updatedHeading = (updatedHeading > 360) ? updatedHeading - 360 : updatedHeading;
+    odometer.update(0, 0, deltaT);
 
     leftMotor.stop(true);
     rightMotor.stop(false);
@@ -68,7 +68,7 @@ public class UltrasonicLocalizer {
 
   /**
    * Returns the distance between the US sensor and an obstacle in cm.
-   * 
+   *
    * @return the distance between the US sensor and an obstacle in cm
    */
   public static double getDistance() {
