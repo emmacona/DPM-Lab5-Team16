@@ -2,7 +2,6 @@ package ca.mcgill.ecse211.lab5;
 
 import static ca.mcgill.ecse211.lab5.Resources.*;
 
-import lejos.hardware.Button;
 import lejos.hardware.Sound;
 
 public class LightLocalizer {
@@ -79,8 +78,7 @@ public class LightLocalizer {
     leftMotor.stop(true);
     rightMotor.stop(false);
     odometer.setTheta(0);
-    //Navigation.turnTo(0);
-    Button.waitForAnyPress();
+
   }
 
   /**

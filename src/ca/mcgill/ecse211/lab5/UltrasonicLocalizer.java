@@ -58,8 +58,6 @@ public class UltrasonicLocalizer {
       deltaT = 225 - (angles[0] + angles[1]) / 2.0;
     }
     
-//    double updatedHeading = odometer.getXYT()[2] + deltaT;
-//    updatedHeading = (updatedHeading > 360) ? updatedHeading - 360 : updatedHeading;
     odometer.update(0, 0, deltaT);
 
     leftMotor.stop(true);

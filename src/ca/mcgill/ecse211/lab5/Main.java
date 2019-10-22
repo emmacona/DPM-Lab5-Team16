@@ -11,8 +11,6 @@ public class Main {
 
   private static int buttonChoice;
   public static final double shootingRange = 135;
-  private static final double ANGLE_CORRECTION_LOW = 2.9;
-  private static final double ANGLE_CORRECTION_HIGH = 8.1;
 
   /**
    * The main entry point.
@@ -35,14 +33,8 @@ public class Main {
       LightLocalizer.localize();
       leftMotor.stop(true);
       rightMotor.stop(false);
+      Button.waitForAnyPress();
 
-//      double deltaT = Math.atan((TARGET_Y - 1) / (TARGET_X - 1)) * 180 / Math.PI;
-//      double updateT = ANGLE_CORRECTION_LOW + (ANGLE_CORRECTION_HIGH - ANGLE_CORRECTION_LOW) * deltaT / 90.0;                             // Theta correction that scales depending on where the target is
-//      odometer.update(0, 0, updateT);
-//
-//      double launchX = findLaunchPoint()[0];
-//      double launchY = findLaunchPoint()[1];
-//      Navigation.travelTo(launchX, launchY);
       Navigation.travelTo(TARGET_X, TARGET_Y, shootingRange);
       launch();
     }
@@ -61,6 +53,16 @@ public class Main {
     double distance = Math.sqrt(dx * dx + dy * dy) - shootingRange;
     double launchX = TILE_SIZE + distance * Math.cos(dTheta);
     double launchY = TILE_SIZE + distance * Math.sin(dTheta);
+    
+    if (launchX < 1 || launchY < 1) {
+      dx = (TARGET_X - 7) * TILE_SIZE;
+      dy = (TARGET_Y - 7) * TILE_SIZE;
+      dTheta = Math.atan(dy/dx);
+      
+      distance = Math.sqrt(dx * dx + dy * dy) - shootingRange;
+      launchX = (7 * TILE_SIZE) - distance * Math.cos(dTheta);
+      launchY = (7 * TILE_SIZE) - distance * Math.sin(dTheta);
+    }
     double[] result = {launchX / TILE_SIZE, launchY / TILE_SIZE};
     return result;
   }

@@ -20,7 +20,7 @@ public class Resources {
    * Target coordinate position of where we want the catapult to shoot.
    */
   public static final double TARGET_X = 6.5;
-  public static final double TARGET_Y = 6.5;
+  public static final double TARGET_Y = 2.5;
 
   /**
    * How far away the robot should be from the target point (cm).
