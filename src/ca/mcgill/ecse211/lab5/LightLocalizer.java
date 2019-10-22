@@ -7,19 +7,20 @@ import lejos.hardware.Sound;
 
 public class LightLocalizer {
 
-  private static double[] angles = {0, 0, 0, 0};        // Array used to store the angles of the black lines
-  private static int angleIndex = 0;                    // Int to see how many points it detected
-  private static double initialRedValue;                // Initial red value of board
-  private static float[] rgbArray = new float[1];       // variable used to get red value
-  private static int rgbThreshold = 20;                 // Threshold to detect lines
+  private static double[] angles = {0, 0, 0, 0};     // Array used to store the angles of the lines
+  private static int angleIndex = 0;                 // Int to see how many points it detected
+  private static double initialRedValue;             // Initial red value of board
+  private static float[] rgbArray = new float[1];    // Variable used to get red value
+  private static int rgbThreshold = 20;              // Threshold to detect lines
 
   /**
-   * Method used to locate the precise position of the (1,1) and orient the robot to 0 degree
-   * 1. Turn robot to 45 degrees since we start on 45 degree line
-   * 2. Move forward until light sensor hits line. Then move backwards by the light sensor offset (My sensor is placed on the back of my robot)
-   * 3. Rotate and store angle for every black line it detects (expected number of values: 4)
-   * 4. Use math formula to find displacement needed to reach (1,1) precisely
-   * 5. Set Odometer with true values and travel to (1,1) and turn to 0 degree
+   * Method used to locate the precise position of the (1,1) and orient the robot to 0 degree.
+   * 1. Turn robot to 45 degrees since we start on 45 degree line.
+   * 2. Move forward until light sensor hits line. Then move backwards by the light sensor offset
+   *        (My sensor is placed on the back of my robot).
+   * 3. Rotate and store angle for every black line it detects (expected number of values: 4).
+   * 4. Use math formula to find displacement needed to reach (1,1) precisely.
+   * 5. Set Odometer with true values and travel to (1,1) and turn to 0 degree.
    */
   public static void localize() {
     // 1
@@ -83,7 +84,8 @@ public class LightLocalizer {
   }
 
   /**
-   * Gets the red value of the color sensor
+   * Gets the red value of the color sensor.
+   * 
    * @return rgbArray[0] * 100
    */
   private static float getRedValue() {

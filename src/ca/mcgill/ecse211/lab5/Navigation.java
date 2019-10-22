@@ -23,6 +23,15 @@ public class Navigation {
     dy = (y * TILE_SIZE) - yi;
     // offset represents how far the robot needs to shoot from
     distance = Math.sqrt(dx * dx + dy * dy) - offset;
+    if (distance < 0) {
+      travelTo(7, 7);
+      xi = odometer.getXYT()[0];
+      yi = odometer.getXYT()[1];
+      dx = (x * TILE_SIZE) - xi;
+      dy = (y * TILE_SIZE) - yi;
+      // offset represents how far the robot needs to shoot from
+      distance = Math.sqrt(dx * dx + dy * dy) - offset;
+    }
 
     headingTheta = computeTheta(x, y);
 

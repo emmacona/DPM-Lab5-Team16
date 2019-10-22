@@ -36,11 +36,6 @@ public class Main {
       leftMotor.stop(true);
       rightMotor.stop(false);
 
-      double deltaT = Math.atan((TARGET_Y - 1) / (TARGET_X - 1)) * 180 / Math.PI;
-      double updateT = ANGLE_CORRECTION_LOW + (ANGLE_CORRECTION_HIGH - ANGLE_CORRECTION_LOW)
-                         * deltaT / 90.0; // Theta correction that scales based on target location
-      odometer.update(0, 0, updateT);
-
 //      double deltaT = Math.atan((TARGET_Y - 1) / (TARGET_X - 1)) * 180 / Math.PI;
 //      double updateT = ANGLE_CORRECTION_LOW + (ANGLE_CORRECTION_HIGH - ANGLE_CORRECTION_LOW) * deltaT / 90.0;                             // Theta correction that scales depending on where the target is
 //      odometer.update(0, 0, updateT);
